@@ -8,6 +8,14 @@ import {createRouter, RouteRecordRaw, createWebHistory} from 'vue-router'
     meta: {
       title: '首页'
     }
+  },
+  {
+    path: '/login',
+    name: 'Login',
+    component: () => import('@/views/login/index.vue'),
+    meta: {
+      hidden: true
+    }
   }
 ]
 
