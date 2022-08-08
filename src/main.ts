@@ -1,11 +1,9 @@
 import { DirectiveOptions } from 'vue'
 
 import 'normalize.css'
-import ElementPlus from 'element-plus';
-import 'element-plus/theme-chalk/index.css';
+import ElementPlus from 'element-plus'
+import 'element-plus/theme-chalk/index.css'
 import zhCn from 'element-plus/es/locale/lang/zh-cn'
-
-import SvgIcon from 'vue-svgicon'
 
 import { createApp } from 'vue'
 import App from './App.vue'
@@ -17,8 +15,10 @@ import { AppModule } from '@/store/modules/app'
 const app = createApp(App)
 
 app.use(ElementPlus, {
+  size: 'medium',
   locale: zhCn
 })
+
 
 app.use(i18n)
 

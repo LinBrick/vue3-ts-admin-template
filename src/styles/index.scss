@@ -38,9 +38,9 @@ div:focus {
   outline: none;
 }
 
-// .clearfix {
-//   @include clearfix;
-// }
+.clearfix {
+  @include clearfix;
+}
 
 label {
   font-weight: 700;

@@ -12,7 +12,7 @@
         <h3 class="title">
           {{ $t('login.title') }}
         </h3>
-        <lang-select class="set-language" />
+        <!-- <LangSelect class="set-language" /> -->
       </div>
 
       <el-form-item prop="username">
@@ -99,12 +99,14 @@
       <br>
       <br>
       <br>
-      <social-sign />
+      <SocialSign />
     </el-dialog>
   </div>
 </template>
 
 <script setup lang="ts" name="Login">
+// import LangSelect from '@/components/LangSelect/index.vue'
+import SocialSign from './components/SocialSignin.vue'
 import { ref, reactive, onMounted, nextTick } from 'vue'
 import { Route, useRouter } from 'vue-router'
 import type { FormInstance, FormRules } from 'element-plus'
@@ -216,7 +218,11 @@ const getOtherQuery = (query: Dictionary<string>)=> {
 
 <style lang="scss">
 @supports (-webkit-mask: none) and (not (cater-color: $loginCursorColor)) {
-  .login-container .el-input {
+  .login-container .el-input__wrapper {
+    width: 85%;
+    background: none;
+    border: 0;
+    box-shadow: none !important;
     input { color: $loginCursorColor; }
     input::first-line { color: $lightGray; }
   }
@@ -229,8 +235,9 @@ const getOtherQuery = (query: Dictionary<string>)=> {
     width: 85%;
 
     input {
+      width: 100%;
       height: 47px;
-      background: transparent;
+      background: none;
       border: 0px;
       border-radius: 0px;
       padding: 12px 5px 12px 15px;
@@ -263,7 +270,7 @@ const getOtherQuery = (query: Dictionary<string>)=> {
 
   .login-form {
     position: relative;
-    width: 520px;
+    width: 450px;
     max-width: 100%;
     padding: 160px 35px 0;
     margin: 0 auto;
