@@ -17,7 +17,7 @@
 
       <el-form-item prop="username">
         <span class="svg-container">
-          <svg-icon name="user" />
+          <SvgIcon name="user" color="#889aa4" />
         </span>
         <el-input
           ref="usernameRef"
@@ -38,7 +38,7 @@
       >
         <el-form-item prop="password">
           <span class="svg-container">
-            <svg-icon name="password" />
+            <SvgIcon name="password" color="#889aa4" />
           </span>
           <el-input
             :key="passwordType"
@@ -57,7 +57,7 @@
             class="show-pwd"
             @click="showPwd(passwordRef)"
           >
-            <svg-icon :name="passwordType === 'password' ? 'eye-off' : 'eye-on'" />
+            <SvgIcon :name="passwordType === 'password' ? 'eye-off' : 'eye-on'" color="#889aa4" />
           </span>
         </el-form-item>
       </el-tooltip>
@@ -108,9 +108,8 @@
 // import LangSelect from '@/components/LangSelect/index.vue'
 import SocialSign from './components/SocialSignin.vue'
 import { ref, reactive, onMounted, nextTick } from 'vue'
-import { Route, useRouter } from 'vue-router'
+import { useRouter } from 'vue-router'
 import type { FormInstance, FormRules } from 'element-plus'
-import { Dictionary } from 'vue-router/types/router'
 import { UserModule } from '@/store/modules/user'
 import { isValidUsername } from '@/utils/validate'
 
@@ -147,7 +146,7 @@ const loading = ref(false)
 const showDialog = ref(false)
 const capsTooltip = ref(false)
 const redirect =  ref('')
-const otherQuery: Dictionary<string> = reactive({})
+const otherQuery: any = reactive({})
 
 // 元素的ref
 const usernameRef = ref<FormInstance>()
@@ -162,8 +161,8 @@ onMounted(()=>{
   }
 })
 
-const onRouteChange = (route: Route)=> {
-  const query = route.query as Dictionary<string>
+const onRouteChange = (route: any)=> {
+  const query = route.query
   if (query) {
     redirect.value = query.redirect
     otherQuery.value = getOtherQuery(query)
@@ -206,13 +205,13 @@ const handleLogin = (loginFormRef: FormInstance | undefined) => {
   })
 }
 
-const getOtherQuery = (query: Dictionary<string>)=> {
-  return Object.keys(query).reduce((acc, cur) => {
+const getOtherQuery = (query: any)=> {
+  return Object.keys(query).reduce((acc: any, cur: any) => {
     if (cur !== 'redirect') {
       acc[cur] = query[cur]
     }
     return acc
-  }, {} as Dictionary<string>)
+  }, {})
 }
 </script>
 
@@ -223,6 +222,7 @@ const getOtherQuery = (query: Dictionary<string>)=> {
     background: none;
     border: 0;
     box-shadow: none !important;
+    padding: 0;
     input { color: $loginCursorColor; }
     input::first-line { color: $lightGray; }
   }
@@ -290,10 +290,9 @@ const getOtherQuery = (query: Dictionary<string>)=> {
   }
 
   .svg-container {
-    padding: 6px 5px 6px 15px;
+    padding: 9px 5px 6px 15px;
     color: $darkGray;
     vertical-align: middle;
-    width: 30px;
     display: inline-block;
   }
 

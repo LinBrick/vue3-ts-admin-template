@@ -4,21 +4,23 @@ import 'normalize.css'
 import ElementPlus from 'element-plus'
 import 'element-plus/theme-chalk/index.css'
 import zhCn from 'element-plus/es/locale/lang/zh-cn'
+import 'virtual:svg-icons-register'
 
 import { createApp } from 'vue'
 import App from './App.vue'
 import router from '@/router'
 import { i18n } from '@/lang'
 import store from '@/store'
+import svgIcon from "@/components/SvgIcon/index.vue"
 import { AppModule } from '@/store/modules/app'
 
 const app = createApp(App)
 
 app.use(ElementPlus, {
-  size: 'medium',
   locale: zhCn
 })
 
+app.component('SvgIcon', svgIcon)
 
 app.use(i18n)
 
