@@ -1,5 +1,5 @@
 import { createI18n } from 'vue-i18n'
-import store from '@/store'
+import { getLanguage } from '@/utils/cookies'
 
 // element-ui built-in lang
 import elementEnLocale from 'element-ui/lib/locale/lang/en'
@@ -42,6 +42,26 @@ const messages = {
     ...itLocale,
     ...elementItLocale
   }
+}
+
+export const getLocale = () => {
+  const cookieLanguage = getLanguage()
+  if (cookieLanguage) {
+    document.documentElement.lang = cookieLanguage
+    return cookieLanguage
+  }
+
+  const language = navigator.language.toLowerCase()
+  const locales = Object.keys(messages)
+  for (const locale of locales) {
+    if (language.indexOf(locale) > -1) {
+      document.documentElement.lang = locale
+      return locale
+    }
+  }
+
+  // Default language is english
+  return 'en'
 }
 
 export const i18n = createI18n({

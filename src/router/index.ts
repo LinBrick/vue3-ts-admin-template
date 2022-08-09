@@ -1,6 +1,6 @@
 import {createRouter, RouteRecordRaw, createWebHistory} from 'vue-router'
 
-  const routes: Array<RouteRecordRaw> = [
+export const constantRoutes: Array<RouteRecordRaw> = [
   {
     path: '/',
     name: 'Dashboard',
@@ -19,15 +19,24 @@ import {createRouter, RouteRecordRaw, createWebHistory} from 'vue-router'
   }
 ]
 
+export const asyncRoutes: Array<RouteRecordRaw> = [
+  
+]
+
 
 const router = createRouter({
   history: createWebHistory(),
-  routes
+  routes: constantRoutes
 })
 
 router.beforeEach((to: any, from: any ,next: any) => {
   to.meta.title && (document.title = `${to.meta.title} - Vue3 ts admin template`)
   next()
 })
+
+export function resetRouter() {
+  const newRouter = router;
+  (router as any).matcher = (newRouter as any).matcher // reset router
+}
 
 export default router

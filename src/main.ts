@@ -1,5 +1,3 @@
-import { DirectiveOptions } from 'vue'
-
 import 'normalize.css'
 import ElementPlus from 'element-plus'
 import 'element-plus/theme-chalk/index.css'
@@ -23,12 +21,6 @@ app.use(ElementPlus, {
 app.component('SvgIcon', svgIcon)
 
 app.use(i18n)
-
-// app.use(SvgIcon, {
-//   tagName: 'svg-icon',
-//   defaultWidth: '1em',
-//   defaultHeight: '1em'
-// })
 
 // Register global directives
 // Object.keys(directives).forEach(key => {

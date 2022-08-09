@@ -5,9 +5,10 @@
     @command="handleSetLanguage"
   >
     <div>
-      <svg-icon
+      <SvgIcon
         name="language"
         class="international-icon"
+        color="#889aa4"
       />
     </div>
     <el-dropdown-menu slot="dropdown">

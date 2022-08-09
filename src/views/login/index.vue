@@ -12,7 +12,7 @@
         <h3 class="title">
           {{ $t('login.title') }}
         </h3>
-        <!-- <LangSelect class="set-language" /> -->
+        <LangSelect class="set-language" />
       </div>
 
       <el-form-item prop="username">
@@ -105,7 +105,7 @@
 </template>
 
 <script setup lang="ts" name="Login">
-// import LangSelect from '@/components/LangSelect/index.vue'
+import LangSelect from '@/components/LangSelect/index.vue'
 import SocialSign from './components/SocialSignin.vue'
 import { ref, reactive, onMounted, nextTick } from 'vue'
 import { useRouter } from 'vue-router'
