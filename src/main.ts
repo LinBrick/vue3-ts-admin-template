@@ -10,7 +10,6 @@ import router from '@/router'
 import { i18n } from '@/lang'
 import store from '@/store'
 import svgIcon from "@/components/SvgIcon/index.vue"
-import { AppModule } from '@/store/modules/app'
 
 const app = createApp(App)
 
@@ -37,3 +36,5 @@ app.config.productionTip = false
 app.use(router)
 app.use(store)
 app.mount('#app')
+
+console.log('main')

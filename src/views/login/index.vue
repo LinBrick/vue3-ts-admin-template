@@ -110,8 +110,10 @@ import SocialSign from './components/SocialSignin.vue'
 import { ref, reactive, onMounted, nextTick } from 'vue'
 import { useRouter } from 'vue-router'
 import type { FormInstance, FormRules } from 'element-plus'
-import { UserModule } from '@/store/modules/user'
 import { isValidUsername } from '@/utils/validate'
+import { useStore } from 'vuex'
+
+const store = useStore()
 
 const router = useRouter()
 
@@ -189,7 +191,7 @@ const handleLogin = (loginFormRef: FormInstance | undefined) => {
   loginFormRef.validate(async(valid: boolean) => {
     if (valid) {
       loading.value = true
-      // await UserModule.Login(loginForm)
+      await store.dispatch('Login', loginForm)
       router.push({
         path: redirect || '/',
         query: otherQuery

@@ -1,11 +1,11 @@
 import axios from 'axios'
-import { Message, MessageBox } from 'element-ui'
-import { useStore } from 'vuex'
+import { ElMessage, ElMessageBox } from 'element-plus'
+import { getToken, removeToken } from '@/utils/cookies'
 
-const store = useStore()
+const token = getToken() || ''
 
 const service = axios.create({
-  baseURL: process.env.VUE_APP_BASE_API, // url = base url + request url
+  baseURL: 'https://vue-typescript-admin-mock-server-armour.vercel.app/mock-api/v1/', // url = base url + request url
   timeout: 5000
   // withCredentials: true // send cookies when cross-domain requests
 })
@@ -14,8 +14,8 @@ const service = axios.create({
 service.interceptors.request.use(
   (config: any) => {
     // Add X-Access-Token header to every request, you can add other custom headers here
-    if (store.getters.token) {
-      config.headers['X-Access-Token'] = store.getters.token
+    if (token) {
+      config.headers['X-Access-Token'] = token
     }
     return config
   },
@@ -37,13 +37,13 @@ service.interceptors.response.use(
     // You can change this part for your own usage.
     const res = response.data
     if (res.code !== 20000) {
-      Message({
+      ElMessage({
         message: res.message || 'Error',
         type: 'error',
         duration: 5 * 1000
       })
       if (res.code === 50008 || res.code === 50012 || res.code === 50014) {
-        MessageBox.confirm(
+        ElMessageBox.confirm(
           '你已被登出，可以取消继续留在该页面，或者重新登录',
           '确定登出',
           {
@@ -52,7 +52,7 @@ service.interceptors.response.use(
             type: 'warning'
           }
         ).then(() => {
-          store.dispatch('ResetToken')
+          removeToken()
           location.reload() // To prevent bugs from vue-router
         })
       }
@@ -62,7 +62,7 @@ service.interceptors.response.use(
     }
   },
   (error) => {
-    Message({
+    ElMessage({
       message: error.message,
       type: 'error',
       duration: 5 * 1000

@@ -3,6 +3,9 @@ import vue from '@vitejs/plugin-vue'
 import vueSetupExtend from 'vite-plugin-vue-setup-extend'
 import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'
 
+const devServerPort = 9527 // TODO: get this variable from setting.ts
+const mockServerPort = 9528 // TODO: get this variable from setting.ts
+
 const { resolve } = require('path')
 
 
@@ -20,10 +23,19 @@ export default defineConfig({
   ],
   server:{
     host: '0.0.0.0',
-    port: 3333,
+    port: devServerPort,
     open: true,
     hmr: {
       overlay: false
+    },
+    proxy: {
+      '/api': {
+        target: `http://127.0.0.1:${mockServerPort}/mock-api/v1`,
+        changeOrigin: true,
+        configure: (proxy, options) => {
+          // proxy 是 'http-proxy' 的实例
+        }
+      }
     }
   },
   resolve: {
