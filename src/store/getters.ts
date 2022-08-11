@@ -11,5 +11,5 @@ export const getters = {
   },
   dynamicRoutes(state: any) {
     return state.permission.dynamicRoutes
-  },
+  }
 }

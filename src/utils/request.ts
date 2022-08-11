@@ -1,8 +1,6 @@
 import axios from 'axios'
 import { ElMessage, ElMessageBox } from 'element-plus'
-import { getToken, removeToken } from '@/utils/cookies'
-
-const token = getToken() || ''
+import store from '@/store'
 
 const service = axios.create({
   baseURL: 'https://vue-typescript-admin-mock-server-armour.vercel.app/mock-api/v1/', // url = base url + request url
@@ -14,8 +12,8 @@ const service = axios.create({
 service.interceptors.request.use(
   (config: any) => {
     // Add X-Access-Token header to every request, you can add other custom headers here
-    if (token) {
-      config.headers['X-Access-Token'] = token
+    if (store.state.user.token) {
+      config.headers['X-Access-Token'] = store.state.user.token
     }
     return config
   },
@@ -52,7 +50,7 @@ service.interceptors.response.use(
             type: 'warning'
           }
         ).then(() => {
-          removeToken()
+          store.dispatch('ResetToken')
           location.reload() // To prevent bugs from vue-router
         })
       }

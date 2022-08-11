@@ -48,7 +48,7 @@ export const permission = {
       } else {
         accessedRoutes = filterAsyncRoutes(asyncRoutes, roles)
       }
-      context.commit('accessedRoutes')
+      context.commit('SET_ROUTES', accessedRoutes)
     }
   }
 }

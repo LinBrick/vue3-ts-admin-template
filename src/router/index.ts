@@ -29,10 +29,10 @@ const router = createRouter({
   routes: constantRoutes
 })
 
-router.beforeEach((to: any, from: any ,next: any) => {
-  to.meta.title && (document.title = `${to.meta.title} - Vue3 ts admin template`)
-  next()
-})
+// router.beforeEach((to: any, from: any ,next: any) => {
+//   to.meta.title && (document.title = `${to.meta.title} - Vue3 ts admin template`)
+//   next()
+// })
 
 export function resetRouter() {
   const newRouter = router;

@@ -10,6 +10,7 @@ import router from '@/router'
 import { i18n } from '@/lang'
 import store from '@/store'
 import svgIcon from "@/components/SvgIcon/index.vue"
+import '@/permission'
 import '@/styles/index.scss' // global css
 
 const app = createApp(App)
@@ -34,8 +35,8 @@ app.use(i18n)
 
 app.config.productionTip = false
 
-app.use(router)
 app.use(store)
+app.use(router)
 app.mount('#app')
 
 console.log('main')

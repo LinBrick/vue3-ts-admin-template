@@ -12,7 +12,7 @@ interface ISettings {
 
 // You can customize below settings :)
 const settings: ISettings = {
-  title: 'Vue Typescript Admin',
+  title: 'Vue3 TS Admin Template',
   showSettings: true,
   showTagsView: true,
   fixedHeader: false,

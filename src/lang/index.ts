@@ -71,3 +71,5 @@ export const i18n = createI18n({
   fallbackLocale: 'zh', // 没有其他语言的情况下默认中文
   messages
 })
+
+export default i18n

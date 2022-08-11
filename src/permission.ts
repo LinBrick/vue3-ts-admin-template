@@ -1,24 +1,17 @@
 import router from './router'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
-import { Message } from 'element-ui'
-import { i18n } from '@/lang' // Internationalization
+import { ElMessage } from 'element-plus'
 import settings from './settings'
 import { useStore } from 'vuex'
-
-const store = useStore()
+import store from '@/store'
 
 NProgress.configure({ showSpinner: false })
 
 const whiteList = ['/login', '/auth-redirect']
 
-const getPageTitle = (key: string) => {
-  const hasKey = i18n.te(`route.${key}`)
-  if (hasKey) {
-    const pageName = i18n.t(`route.${key}`)
-    return `${pageName} - ${settings.title}`
-  }
-  return `${settings.title}`
+const getPageTitle = (to: any) => {
+  return to.meta.title ? `${to.meta.title} - ${settings.title}` : settings.title
 }
 
 router.beforeEach(async(to: any, _: any, next: any) => {
@@ -50,7 +43,7 @@ router.beforeEach(async(to: any, _: any, next: any) => {
         } catch (err: any) {
           // Remove token and redirect to login page
           store.dispatch('ResetToken')
-          Message.error(err || 'Has Error')
+          ElMessage.error(err || 'Has Error')
           next(`/login?redirect=${to.path}`)
           NProgress.done()
         }
@@ -73,7 +66,6 @@ router.beforeEach(async(to: any, _: any, next: any) => {
 
 router.afterEach((to: any) => {
   // Finish progress bar
-  // hack: https://github.com/PanJiaChen/vue-element-admin/pull/2939
   NProgress.done()
 
   // set page title
