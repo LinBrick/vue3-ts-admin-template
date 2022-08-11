@@ -10,6 +10,7 @@ import router from '@/router'
 import { i18n } from '@/lang'
 import store from '@/store'
 import svgIcon from "@/components/SvgIcon/index.vue"
+import '@/styles/index.scss' // global css
 
 const app = createApp(App)
 

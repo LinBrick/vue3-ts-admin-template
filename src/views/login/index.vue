@@ -151,17 +151,7 @@ const redirect =  ref('')
 const otherQuery: any = reactive({})
 
 // 元素的ref
-const usernameRef = ref<FormInstance>()
-const passwordRef = ref<FormInstance>()
 const loginFormRef = ref<FormInstance>()
-
-onMounted(()=>{
-  if (loginForm.username === '') {
-    usernameRef.focus()
-  } else if (loginForm.password === '') {
-    passwordRef.focus()
-  }
-})
 
 const onRouteChange = (route: any)=> {
   const query = route.query
@@ -176,27 +166,22 @@ const checkCapslock = (e: KeyboardEvent) => {
   capsTooltip.value = key !== null && key.length === 1 && (key >= 'A' && key <= 'Z')
 }
 
-const showPwd = (passwordRef: FormInstance | undefined) => {
+const showPwd = (passwordRef: FormInstance) => {
   if (passwordType.value === 'password') {
     passwordType.value = ''
   } else {
     passwordType.value = 'password'
   }
-  nextTick(() => {
-    passwordRef.focus()
-  })
 }
 
-const handleLogin = (loginFormRef: FormInstance | undefined) => {
+const handleLogin = (loginFormRef: FormInstance) => {
   loginFormRef.validate(async(valid: boolean) => {
     if (valid) {
       loading.value = true
       await store.dispatch('Login', loginForm)
       router.push({
-        path: redirect || '/',
+        path: redirect.value || '/',
         query: otherQuery
-      }).catch(err => {
-        console.warn(err)
       })
       setTimeout(() => {
         loading.value = false
