@@ -4,7 +4,7 @@
       class="sign-btn"
       @click="wechatHandleClick('wechat')"
     >
-      <span class="wx-svg-container"><svg-icon
+      <span class="wx-svg-container"><SvgIcon
         name="wechat"
         class="icon"
       /></span> 微信
@@ -13,7 +13,7 @@
       class="sign-btn"
       @click="tencentHandleClick('tencent')"
     >
-      <span class="qq-svg-container"><svg-icon
+      <span class="qq-svg-container"><SvgIcon
         name="qq"
         class="icon"
       /></span> QQ

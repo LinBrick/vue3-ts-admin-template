@@ -1,3 +1,7 @@
 .el-button {
   padding: 8px 15px !important;
 }
+
+.el-dialog {
+  margin: var(--el-dialog-margin-top,15vh) auto 50px;
+}

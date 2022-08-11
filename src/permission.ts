@@ -3,7 +3,6 @@ import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 import { ElMessage } from 'element-plus'
 import settings from './settings'
-import { useStore } from 'vuex'
 import store from '@/store'
 
 NProgress.configure({ showSpinner: false })
@@ -11,7 +10,7 @@ NProgress.configure({ showSpinner: false })
 const whiteList = ['/login', '/auth-redirect']
 
 const getPageTitle = (to: any) => {
-  return to.meta.title ? `${to.meta.title} - ${settings.title}` : settings.title
+  return to.meta && to.meta.title ? `${to.meta.title} - ${settings.title}` : settings.title
 }
 
 router.beforeEach(async(to: any, _: any, next: any) => {
