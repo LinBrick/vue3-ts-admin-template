@@ -11,22 +11,16 @@
   </section>
 </template>
 
-<script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
-import { TagsViewModule } from '@/store/modules/tags-view'
+<script setup lang="ts" name="AppMain">
+import { ref } from 'vue'
+import { useStore } from 'vuex'
+import { useRouter } from 'vue-router'
 
-@Component({
-  name: 'AppMain'
-})
-export default class extends Vue {
-  get cachedViews() {
-    return TagsViewModule.cachedViews
-  }
+const store = useStore()
+const router = useRouter()
 
-  get key() {
-    return this.$route.path
-  }
-}
+const cachedViews = ref(store.state.tagsView.cachedViews)
+const key = router.currentRoute.value
 </script>
 
 <style lang="scss" scoped>

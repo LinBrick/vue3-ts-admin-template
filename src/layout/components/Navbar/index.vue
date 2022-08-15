@@ -1,28 +1,27 @@
 <template>
   <div class="navbar">
-    <hamburger
+    <Hamburger
       id="hamburger-container"
       :is-active="sidebar.opened"
       class="hamburger-container"
       @toggle-click="toggleSideBar"
     />
-    <breadcrumb
+    <Breadcrumb
       id="breadcrumb-container"
       class="breadcrumb-container"
     />
     <div class="right-menu">
       <template v-if="device!=='mobile'">
-        <header-search class="right-menu-item" />
-        <error-log class="errLog-container right-menu-item hover-effect" />
-        <screenfull class="right-menu-item hover-effect" />
+        <!-- <HeaderSearch class="right-menu-item" />
+        <ErrorLog class="errLog-container right-menu-item hover-effect" />
+        <Screenfull class="right-menu-item hover-effect" />
         <el-tooltip
           :content="$t('navbar.size')"
           effect="dark"
           placement="bottom"
         >
-          <size-select class="right-menu-item hover-effect" />
-        </el-tooltip>
-        <lang-select class="right-menu-item hover-effect" />
+          <SizeSelect class="right-menu-item hover-effect" />
+        </el-tooltip> -->
       </template>
       <el-dropdown
         class="avatar-container right-menu-item hover-effect"
@@ -38,20 +37,20 @@
         <el-dropdown-menu slot="dropdown">
           <router-link to="/profile/">
             <el-dropdown-item>
-              {{ $t('navbar.profile') }}
+              个人中心
             </el-dropdown-item>
           </router-link>
           <router-link to="/">
             <el-dropdown-item>
-              {{ $t('navbar.dashboard') }}
+              首页
             </el-dropdown-item>
           </router-link>
           <a
             target="_blank"
-            href="https://github.com/armour/vue-typescript-admin-template/"
+            href="https://github.com/LinBrick/vue3-ts-admin-template/"
           >
             <el-dropdown-item>
-              {{ $t('navbar.github') }}
+              项目地址
             </el-dropdown-item>
           </a>
           <a
@@ -65,7 +64,7 @@
             @click.native="logout"
           >
             <span style="display:block;">
-              {{ $t('navbar.logOut') }}
+              退出登录
             </span>
           </el-dropdown-item>
         </el-dropdown-menu>
@@ -74,54 +73,35 @@
   </div>
 </template>
 
-<script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
-import { AppModule } from '@/store/modules/app'
-import { UserModule } from '@/store/modules/user'
+<script setup lang="ts" name="Navbar">
+import { ref } from 'vue'
+import { useStore } from 'vuex'
+import { useRouter } from 'vue-router'
 import Breadcrumb from '@/components/Breadcrumb/index.vue'
-import ErrorLog from '@/components/ErrorLog/index.vue'
+// import ErrorLog from '@/components/ErrorLog/index.vue'
 import Hamburger from '@/components/Hamburger/index.vue'
-import HeaderSearch from '@/components/HeaderSearch/index.vue'
-import LangSelect from '@/components/LangSelect/index.vue'
-import Screenfull from '@/components/Screenfull/index.vue'
-import SizeSelect from '@/components/SizeSelect/index.vue'
+// import HeaderSearch from '@/components/HeaderSearch/index.vue'
+// import Screenfull from '@/components/Screenfull/index.vue'
+// import SizeSelect from '@/components/SizeSelect/index.vue'
 
-@Component({
-  name: 'Navbar',
-  components: {
-    Breadcrumb,
-    ErrorLog,
-    Hamburger,
-    HeaderSearch,
-    LangSelect,
-    Screenfull,
-    SizeSelect
-  }
-})
-export default class extends Vue {
-  get sidebar() {
-    return AppModule.sidebar
-  }
+const store = useStore()
+const router = useRouter()
 
-  get device() {
-    return AppModule.device.toString()
-  }
+const sidebar = ref(store.state.app.sidebar)
+const device = ref(store.state.app.device.toString())
+const avatar = ref(store.state.user.avatar)
 
-  get avatar() {
-    return UserModule.avatar
-  }
-
-  private toggleSideBar() {
-    AppModule.ToggleSideBar(false)
-  }
-
-  private async logout() {
-    await UserModule.LogOut()
-    this.$router.push(`/login?redirect=${this.$route.fullPath}`).catch(err => {
-      console.warn(err)
-    })
-  }
+const toggleSideBar = () => {
+  store.dispatch('ToggleSideBar', false)
 }
+
+const logout = async () => {
+  await store.dispatch('LogOut')
+  router.push(`/login?redirect=${router.currentRoute.value.fullPath}`).catch(err => {
+    console.warn(err)
+  })
+}
+
 </script>
 
 <style lang="scss" scoped>

@@ -1,6 +1,6 @@
 <template>
   <div :class="{'has-logo': showLogo}">
-    <sidebar-logo
+    <!-- <SidebarLogo
       v-if="showLogo"
       :collapse="isCollapse"
     />
@@ -15,7 +15,7 @@
         :collapse-transition="false"
         mode="vertical"
       >
-        <sidebar-item
+        <SidebarItem
           v-for="route in routes"
           :key="route.path"
           :item="route"
@@ -23,65 +23,27 @@
           :is-collapse="isCollapse"
         />
       </el-menu>
-    </el-scrollbar>
+    </el-scrollbar> -->
   </div>
 </template>
 
-<script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
-import { AppModule } from '@/store/modules/app'
-import { PermissionModule } from '@/store/modules/permission'
-import { SettingsModule } from '@/store/modules/settings'
+<script setup lang="ts" name="SideBar">
+import { reactive, ref } from 'vue'
+import { useStore } from 'vuex'
+import { useRouter } from 'vue-router'
 import SidebarItem from './SidebarItem.vue'
 import SidebarLogo from './SidebarLogo.vue'
-import variables from '@/styles/_variables.scss'
 
-@Component({
-  name: 'SideBar',
-  components: {
-    SidebarItem,
-    SidebarLogo
-  }
-})
-export default class extends Vue {
-  get sidebar() {
-    return AppModule.sidebar
-  }
+const store = useStore()
+const router = useRouter()
 
-  get routes() {
-    return PermissionModule.routes
-  }
-
-  get showLogo() {
-    return SettingsModule.showSidebarLogo
-  }
-
-  get menuActiveTextColor() {
-    if (SettingsModule.sidebarTextTheme) {
-      return SettingsModule.theme
-    } else {
-      return variables.menuActiveText
-    }
-  }
-
-  get variables() {
-    return variables
-  }
-
-  get activeMenu() {
-    const route = this.$route
-    const { meta, path } = route
-    // if set path, the sidebar will highlight the path you set
-    if (meta.activeMenu) {
-      return meta.activeMenu
-    }
-    return path
-  }
-
-  get isCollapse() {
-    return !this.sidebar.opened
-  }
-}
+const sidebar = reactive(store.state.app.sidebar)
+console.log(sidebar)
+const routes = ref(store.state.permission.routes)
+const showLogo = ref(store.state.settings.showLogo)
+const menuActiveTextColor = ref(store.state.settings.sidebarTextTheme ? store.state.settings.theme : '#409EFF')
+const activeMenu = ref(router.currentRoute.value.meta && router.currentRoute.value.meta.activeMenu ? router.currentRoute.value.meta.activeMenu : '')
+const isCollapse = ref(!sidebar.opened)
 </script>
 
 <style lang="scss">

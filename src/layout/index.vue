@@ -8,68 +8,45 @@
       class="drawer-bg"
       @click="handleClickOutside"
     />
-    <sidebar class="sidebar-container" />
+    <Sidebar class="sidebar-container" />
     <div
       :class="{hasTagsView: showTagsView}"
       class="main-container"
     >
       <div :class="{'fixed-header': fixedHeader}">
-        <navbar />
-        <tags-view v-if="showTagsView" />
+        <Navbar />
+        <TagsView v-if="showTagsView" />
       </div>
-      <app-main />
-      <right-panel v-if="showSettings">
-        <settings />
-      </right-panel>
+      <AppMain />
+      <RightPanel v-if="showSettings">
+        <Settings />
+      </RightPanel>
     </div>
   </div>
 </template>
 
-<script lang="ts">
-import { Component } from 'vue-property-decorator'
-import { mixins } from 'vue-class-component'
-import { DeviceType, AppModule } from '@/store/modules/app'
-import { SettingsModule } from '@/store/modules/settings'
+<script setup lang="ts">
+import { reactive, ref } from 'vue'
 import { AppMain, Navbar, Settings, Sidebar, TagsView } from './components'
 import RightPanel from '@/components/RightPanel/index.vue'
-import ResizeMixin from './mixin/resize'
+import resize from './mixin/resize'
+import { DeviceType } from '@/store/modules/app'
+import { useStore } from 'vuex'
 
-@Component({
-  name: 'Layout',
-  components: {
-    AppMain,
-    Navbar,
-    RightPanel,
-    Settings,
-    Sidebar,
-    TagsView
-  }
+const store = useStore()
+const { device, sidebar } = resize.setup()
+const classObj = reactive({
+  hideSidebar: !sidebar.opened,
+  openSidebar: sidebar.opened,
+  withoutAnimation: sidebar.withoutAnimation,
+  mobile: device === DeviceType.Mobile
 })
-export default class extends mixins(ResizeMixin) {
-  get classObj() {
-    return {
-      hideSidebar: !this.sidebar.opened,
-      openSidebar: this.sidebar.opened,
-      withoutAnimation: this.sidebar.withoutAnimation,
-      mobile: this.device === DeviceType.Mobile
-    }
-  }
+const showSettings = ref(store.state.settings.showSettings)
+const showTagsView = ref(store.state.settings.showTagsView)
+const fixedHeader = ref(store.state.settings.fixedHeader)
 
-  get showSettings() {
-    return SettingsModule.showSettings
-  }
-
-  get showTagsView() {
-    return SettingsModule.showTagsView
-  }
-
-  get fixedHeader() {
-    return SettingsModule.fixedHeader
-  }
-
-  private handleClickOutside() {
-    AppModule.CloseSideBar(false)
-  }
+const handleClickOutside = () => {
+  store.dispatch('CloseSideBar', false)
 }
 </script>
 

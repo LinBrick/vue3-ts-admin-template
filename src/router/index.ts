@@ -1,13 +1,32 @@
 import {createRouter, RouteRecordRaw, createWebHistory} from 'vue-router'
+/* Layout */
+import Layout from '@/layout/index.vue'
 
 export const constantRoutes: Array<RouteRecordRaw> = [
+  // {
+  //   path: '/',
+  //   name: 'Dashboard',
+  //   component: () => import('@/views/dashboard/index.vue'),
+  //   meta: {
+  //     title: '首页'
+  //   }
+  // },
   {
     path: '/',
-    name: 'Dashboard',
-    component: () => import('@/views/dashboard/index.vue'),
-    meta: {
-      title: '首页'
-    }
+    component: Layout,
+    redirect: '/dashboard',
+    children: [
+      {
+        path: 'dashboard',
+        component: () => import('@/views/dashboard/index.vue'),
+        name: 'Dashboard',
+        meta: {
+          title: '首页',
+          icon: 'dashboard',
+          affix: true
+        }
+      }
+    ]
   },
   {
     path: '/login',

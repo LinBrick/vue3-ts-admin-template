@@ -1,55 +1,55 @@
-import { Component, Vue, Watch } from 'vue-property-decorator'
-import { AppModule, DeviceType } from '@/store/modules/app'
+import { ref, watch, onBeforeMount, onMounted, onBeforeUnmount } from 'vue'
+import store from '@/store'
+import router from '@/router'
+import { DeviceType } from '@/store/modules/app'
 
 const WIDTH = 992 // refer to Bootstrap's responsive design
 
-@Component({
-  name: 'ResizeMixin'
-})
-export default class extends Vue {
-  get device() {
-    return AppModule.device
-  }
-
-  get sidebar() {
-    return AppModule.sidebar
-  }
-
-  @Watch('$route')
-  private onRouteChange() {
-    if (this.device === DeviceType.Mobile && this.sidebar.opened) {
-      AppModule.CloseSideBar(false)
-    }
-  }
-
-  beforeMount() {
-    window.addEventListener('resize', this.resizeHandler)
-  }
-
-  mounted() {
-    const isMobile = this.isMobile()
-    if (isMobile) {
-      AppModule.ToggleDevice(DeviceType.Mobile)
-      AppModule.CloseSideBar(true)
-    }
-  }
-
-  beforeDestroy() {
-    window.removeEventListener('resize', this.resizeHandler)
-  }
-
-  private isMobile() {
-    const rect = document.body.getBoundingClientRect()
-    return rect.width - 1 < WIDTH
-  }
-
-  private resizeHandler() {
-    if (!document.hidden) {
-      const isMobile = this.isMobile()
-      AppModule.ToggleDevice(isMobile ? DeviceType.Mobile : DeviceType.Desktop)
-      if (isMobile) {
-        AppModule.CloseSideBar(true)
+export default {
+  setup() {
+    const device = ref(store.state.app.device)
+    const sidebar = ref(store.state.app.sidebar)
+    
+    watch(() => router.currentRoute.value.path, (newValue, oldValue)=> {
+      if (device.value === DeviceType.Mobile && sidebar.opened) {
+        store.dispatch('CloseSideBar', false)
       }
+    }, { immediate: true })
+
+    const isMobile = () => {
+      const rect = document.body.getBoundingClientRect()
+      return rect.width - 1 < WIDTH
+    }
+
+    const resizeHandler = () => {
+      if (!document.hidden) {
+        const _isMobile = isMobile()
+        store.dispatch('ToggleDevice', _isMobile ? DeviceType.Mobile : DeviceType.Desktop)
+        if (_isMobile) {
+          store.dispatch('CloseSideBar', true)
+        }
+      }
+    }
+
+    onBeforeMount(() => {
+      window.addEventListener('resize', resizeHandler)
+    })
+
+    onMounted(() => {
+      const _isMobile = isMobile()
+      if (_isMobile) {
+        store.dispatch('ToggleDevice', DeviceType.Mobile)
+        store.dispatch('CloseSideBar', true)
+      }
+    })
+
+    onBeforeUnmount(() => {
+      window.removeEventListener('resize', resizeHandler)
+    })
+
+    return {
+      device,
+      sidebar
     }
   }
 }

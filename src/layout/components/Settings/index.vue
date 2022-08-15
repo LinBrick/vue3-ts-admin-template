@@ -1,12 +1,12 @@
 <template>
   <div class="drawer-container">
-    <div>
+    <!-- <div>
       <h3 class="drawer-title">
-        {{ $t('settings.title') }}
+        系统登录
       </h3>
 
       <div class="drawer-item">
-        <span>{{ $t('settings.theme') }}</span>
+        <span>主题色</span>
         <theme-picker
           style="float: right;height: 26px;margin: -3px 8px 0 0;"
           @change="themeChange"
@@ -14,7 +14,7 @@
       </div>
 
       <div class="drawer-item">
-        <span>{{ $t('settings.showTagsView') }}</span>
+        <span>显示 Tags-View</span>
         <el-switch
           v-model="showTagsView"
           class="drawer-switch"
@@ -22,7 +22,7 @@
       </div>
 
       <div class="drawer-item">
-        <span>{{ $t('settings.showSidebarLogo') }}</span>
+        <span>显示侧边栏 Logo</span>
         <el-switch
           v-model="showSidebarLogo"
           class="drawer-switch"
@@ -30,7 +30,7 @@
       </div>
 
       <div class="drawer-item">
-        <span>{{ $t('settings.fixedHeader') }}</span>
+        <span>固定 Header</span>
         <el-switch
           v-model="fixedHeader"
           class="drawer-switch"
@@ -38,64 +38,18 @@
       </div>
 
       <div class="drawer-item">
-        <span>{{ $t('settings.sidebarTextTheme') }}</span>
+        <span>侧边栏文字主题色</span>
         <el-switch
           v-model="sidebarTextTheme"
           class="drawer-switch"
         />
       </div>
-    </div>
+    </div> -->
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
-import { SettingsModule } from '@/store/modules/settings'
-import ThemePicker from '@/components/ThemePicker/index.vue'
 
-@Component({
-  name: 'Settings',
-  components: {
-    ThemePicker
-  }
-})
-export default class extends Vue {
-  get fixedHeader() {
-    return SettingsModule.fixedHeader
-  }
-
-  set fixedHeader(value) {
-    SettingsModule.ChangeSetting({ key: 'fixedHeader', value })
-  }
-
-  get showTagsView() {
-    return SettingsModule.showTagsView
-  }
-
-  set showTagsView(value) {
-    SettingsModule.ChangeSetting({ key: 'showTagsView', value })
-  }
-
-  get showSidebarLogo() {
-    return SettingsModule.showSidebarLogo
-  }
-
-  set showSidebarLogo(value) {
-    SettingsModule.ChangeSetting({ key: 'showSidebarLogo', value })
-  }
-
-  get sidebarTextTheme() {
-    return SettingsModule.sidebarTextTheme
-  }
-
-  set sidebarTextTheme(value) {
-    SettingsModule.ChangeSetting({ key: 'sidebarTextTheme', value })
-  }
-
-  private themeChange(value: string) {
-    SettingsModule.ChangeSetting({ key: 'theme', value })
-  }
-}
 </script>
 
 <style lang="scss" scoped>
